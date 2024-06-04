@@ -5,18 +5,19 @@ import {
   HStack,
   Icon,
   Spacer,
-  Stack
+  Stack,
+  Text,
 } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const NavBar = () => {
-  const arr = ["Home", "Hotels", "About Us", "Login"];
+  const arr = ["Home", "Hotels", "About", "Login"];
   return (
     <HStack
       height={"90px"}
       width={"full"}
-      backgroundColor={"lightblue"}
       alignItems={"center"}
+      backgroundColor={"lightblue"}
     >
       <Box marginLeft={"3%"} justifyContent={"center"} alignItems={"center"}>
         <Icon as={GiHamburgerMenu} fontSize={"250%"} />
@@ -40,9 +41,19 @@ const NavBar = () => {
             // backgroundColor={"aqua"}
             justifyContent={"center"}
             alignItems={"center"}
-            margin={"2%"}
+            // margin={"2%"}
           >
-            <Button colorScheme='blue'size={"lg"} >{ele}</Button>
+            <Text
+              fontFamily={"ubuntu"}
+              fontSize={"150%"}
+              _hover={{
+                borderBottom: "10px",
+                borderColor: "white",
+                
+              }}
+            >
+              {ele}
+            </Text>
           </Stack>
         ))}
       </HStack>
