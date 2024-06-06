@@ -12,8 +12,6 @@ const DashBoardLayout = ({ children }: { children: React.ReactNode }) => {
         <SideNavLayout isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
       </NavBar>
       <Box
-        width={"full"}
-        height={"full"}
         display={"flex"}
         margin={"20px"}
         justifyContent={"center"}

@@ -4,9 +4,11 @@ import {
   Heading,
   HStack,
   Icon,
+  Select,
   Spacer,
   Stack,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import React from "react";
 import { CiLogin } from "react-icons/ci";
@@ -14,7 +16,7 @@ import { FaHotel } from "react-icons/fa";
 import { FcAbout } from "react-icons/fc";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoHome } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = ({
   children,
@@ -45,7 +47,11 @@ const NavBar = ({
       link: "/login",
     },
   ];
-  const arr = ["Home", "Hotels", "About", "Login"];
+  // const arr = ["Home", "Hotels", "About", "Login"];
+  const isLargeScreen = useBreakpointValue({ base: false, xl: true });
+
+  const history = useNavigate();
+
   return (
     <HStack
       height={"90px"}
@@ -64,45 +70,66 @@ const NavBar = ({
       </Heading>
       <Spacer />
 
-      <HStack
-        marginRight={"5%"}
-        width={"25%"}
-        height={"80%"}
-        justifyContent={"space-evenly"}
-        alignItems={"center"}
-      >
-        {elements.map((ele) => (
-          <Stack
-            width={"20%"}
-            height={"80%"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <Box
-              width={"120%"}
-              height={"100%"}
-              display={"flex"}
-              justifyContent={"space-evenly"}
+      {isLargeScreen ? (
+        <HStack
+          marginRight={"5%"}
+          width={"35%"}
+          height={"80%"}
+          justifyContent={"space-evenly"}
+          alignItems={"center"}
+        >
+          {elements.map((ele, key) => (
+            <Stack
+              key={key}
+              width={"40%"}
+              height={"80%"}
+              justifyContent={"center"}
               alignItems={"center"}
-              cursor={"pointer"}
-              transition={"all 0.2s ease"}
-              _hover={{
-                border: "2px",
-                borderColor: "#272b2a",
-                backgroundColor: "#272b2a",
-                borderRadius: "20px",
-                color: "white",
-              }}
             >
-              <Icon as={ele.icon} boxSize={"25px"}/>
-              <Text fontFamily={"ubuntu"} fontSize={"30px"}>
-                {ele.name}
-              </Text>
-              {/* <Link to={ele.link} /> */}
-            </Box>
-          </Stack>
-        ))}
-      </HStack>
+              <Link to={ele.link}>
+                <Box
+                  width={"120%"}
+                  height={"100%"}
+                  display={"flex"}
+                  justifyContent={"space-evenly"}
+                  alignItems={"center"}
+                  cursor={"pointer"}
+                  transition={"all 0.2s ease"}
+                  _hover={{
+                    border: "2px",
+                    borderColor: "#272b2a",
+                    backgroundColor: "#272b2a",
+                    borderRadius: "20px",
+                    color: "white",
+                  }}
+                >
+                  <Icon as={ele.icon} boxSize={"25px"} />
+                  <Text fontFamily={"ubuntu"} fontSize={"30px"}>
+                    {ele.name}
+                  </Text>
+                  {/* <Link to={ele.link} /> */}
+                </Box>
+              </Link>
+            </Stack>
+          ))}
+        </HStack>
+      ) : (
+        <Select
+          placeholder={"Menu"}
+          size="lg"
+          colorScheme="blackAlpha"
+          variant={"flushed"}
+          width={"30%"}
+          marginRight={"20px"}
+          onChange={(e) => history(e.target.value)}
+        >
+          {elements.map((ele, key) => (
+            <option key={key} value={ele.link}>
+              {ele.name}
+            </option>
+          ))}
+        </Select>
+      )}
     </HStack>
   );
 };
