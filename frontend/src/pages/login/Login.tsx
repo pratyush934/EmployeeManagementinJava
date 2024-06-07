@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormLabel,
+  HStack,
   Icon,
   Input,
   InputGroup,
@@ -72,7 +73,7 @@ const Login = () => {
             />
           </Box>
           <Box as="div" marginBottom={"10px"}>
-            <FormLabel>Email Password</FormLabel>
+            <FormLabel> Password</FormLabel>
             <InputGroup>
               <Input
                 id="password"
@@ -100,18 +101,34 @@ const Login = () => {
             marginTop={"5%"}
           >
             {errors.password && <span>This field is required</span>}
-            <Input type="submit" width={"40%"} backgroundColor={"lightgreen"} />
+            <Input
+              type="submit"
+              width={"110px"}
+              height={"50px"}
+              backgroundColor={"#92b39b"}
+              value={"Login"}
+              _hover={{
+                cursor: "pointer",
+                border: "2px",
+                borderColor: "black",
+                color: "white",
+              }}
+              fontWeight={"bold"}
+            />
           </Box>
         </form>
-        <Button
-          colorScheme="blue"
-          size={"lg"}
-          width={"30"}
-          margin={"10px"}
-          onClick={signUpSubmit}
-        >
-          SignUp
-        </Button>
+        <HStack justifyContent={"center"} alignItems={"center"}>
+          <Button
+            type="submit"
+            colorScheme="cyan"
+            size={"lg"}
+            width={"50"}
+            margin={"10px"}
+            onClick={signUpSubmit}
+          >
+            SignUp
+          </Button>
+        </HStack>
       </Stack>
     </DashBoardLayout>
   );
