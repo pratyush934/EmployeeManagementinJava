@@ -13,7 +13,7 @@ import {
 import React from "react";
 import { CiLogin } from "react-icons/ci";
 import { FaHotel } from "react-icons/fa";
-import { FcAbout } from "react-icons/fc";
+import { FcAbout, FcTodoList } from "react-icons/fc";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoHome } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
@@ -32,9 +32,9 @@ const NavBar = ({
       link: "/",
     },
     {
-      name: "Hotels",
-      icon: FaHotel,
-      link: "/hotel",
+      name: "Todos",
+      icon: FcTodoList,
+      link: "/todos",
     },
     {
       name: "About",
