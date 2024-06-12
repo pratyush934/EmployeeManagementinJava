@@ -5,7 +5,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -17,8 +23,9 @@ import java.util.List;
 @Builder
 @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "user_table")
-public class User {
+public class User implements UserDetails, Principal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +53,9 @@ public class User {
     @Size(min = 20, max = 100)
     private String description;
 
+    private boolean accountLocked;
+    private boolean enabled;
+
 
     private Integer blogCount;
 
@@ -53,7 +63,43 @@ public class User {
     private List<Todo> todos;
 
 
+    @Override
+    public String getName() {
+        return this.firstName + " " + this.lastName;
+    }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !accountLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 }
