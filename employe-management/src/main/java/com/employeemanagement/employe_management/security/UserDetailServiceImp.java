@@ -1,5 +1,6 @@
 package com.employeemanagement.employe_management.security;
 
+import com.employeemanagement.employe_management.Entity.User;
 import com.employeemanagement.employe_management.Repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,5 +18,9 @@ public class UserDetailServiceImp implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("So sorry"));
+    }
+
+    public void saveUser(User user) {
+        userRepository.save(user);
     }
 }
