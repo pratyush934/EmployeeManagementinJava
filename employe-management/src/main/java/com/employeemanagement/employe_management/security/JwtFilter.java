@@ -1,7 +1,5 @@
 package com.employeemanagement.employe_management.security;
 
-import aj.org.objectweb.asm.commons.TryCatchBlockSorter;
-import io.jsonwebtoken.Jwt;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -37,7 +34,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String username = "";
         String token = "";
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = Objects.requireNonNull(authorizationHeader).substring(7);
             try {
                 username = jwtService.extractUsername(token);

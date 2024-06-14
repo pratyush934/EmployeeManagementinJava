@@ -2,11 +2,14 @@ package com.employeemanagement.employe_management.security;
 
 import com.employeemanagement.employe_management.Entity.User;
 import com.employeemanagement.employe_management.Repository.UserRepository;
+import lombok.Setter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class UserDetailServiceImp implements UserDetailsService {
     private final UserRepository userRepository;
 

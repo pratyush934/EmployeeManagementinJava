@@ -36,7 +36,6 @@ public class User implements UserDetails, Principal {
     @Size(min = 2, max = 15)
     private String firstName;
 
-    @NotNull
     @Size(min = 2, max = 15)
     private String lastName;
 
@@ -49,7 +48,6 @@ public class User implements UserDetails, Principal {
     @Size(min = 4, max = 20)
     private String password;
 
-    @NotNull
     @Size(min = 20, max = 100)
     private String description;
 

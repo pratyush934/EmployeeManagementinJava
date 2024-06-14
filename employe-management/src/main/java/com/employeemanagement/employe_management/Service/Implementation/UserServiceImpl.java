@@ -7,18 +7,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
+
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
-//    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    //    @Autowired
 //    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
 //        this.userRepository = userRepository;
 //        this.passwordEncoder = passwordEncoder;
