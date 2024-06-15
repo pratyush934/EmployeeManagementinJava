@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -24,15 +26,23 @@ public class SecurityConfig {
 
 
     private UserDetailServiceImp userDetailServiceImp;
-    private AuthenticationManager authenticationManager;
     private JwtFilter jwtFilter;
+    private AuthenticationProvider authenticationProvider;
 
 
     @Autowired
-    public SecurityConfig(UserDetailServiceImp userDetailServiceImp, AuthenticationManager authenticationManager, JwtFilter jwtFilter) {
+    public SecurityConfig(UserDetailServiceImp userDetailServiceImp, JwtFilter jwtFilter, AuthenticationProvider authenticationProvider) {
         this.userDetailServiceImp = userDetailServiceImp;
-        this.authenticationManager = authenticationManager;
         this.jwtFilter = jwtFilter;
+        this.authenticationProvider = authenticationProvider;
+    }
+
+
+    @Bean
+    public AuthenticationProvider authenticationProvider(UserDetailServiceImp userDetailServiceImp) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailServiceImp);
+        return provider;
     }
 
     @Bean
@@ -47,16 +57,16 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationManager(authenticationManager)
+                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
 
 
     @Autowired
