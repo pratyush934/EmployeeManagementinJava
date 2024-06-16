@@ -27,23 +27,13 @@ public class SecurityConfig {
 
     private UserDetailServiceImp userDetailServiceImp;
     private JwtFilter jwtFilter;
-    private AuthenticationProvider authenticationProvider;
 
 
-    @Autowired
-    public SecurityConfig(UserDetailServiceImp userDetailServiceImp, JwtFilter jwtFilter, AuthenticationProvider authenticationProvider) {
+    public SecurityConfig(UserDetailServiceImp userDetailServiceImp, JwtFilter jwtFilter) {
         this.userDetailServiceImp = userDetailServiceImp;
         this.jwtFilter = jwtFilter;
-        this.authenticationProvider = authenticationProvider;
     }
 
-
-    @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailServiceImp userDetailServiceImp) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailServiceImp);
-        return provider;
-    }
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -57,7 +47,7 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
+                .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -78,5 +68,13 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailServiceImp);
+        return authenticationProvider;
+    }
+
 
 }

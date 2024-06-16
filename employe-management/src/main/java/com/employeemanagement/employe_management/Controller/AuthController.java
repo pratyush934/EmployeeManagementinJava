@@ -1,7 +1,6 @@
 package com.employeemanagement.employe_management.Controller;
 
 import com.employeemanagement.employe_management.Entity.User;
-import com.employeemanagement.employe_management.Entity.Utility.AuthResponse;
 import com.employeemanagement.employe_management.Entity.Utility.LoginRequest;
 import com.employeemanagement.employe_management.Service.Implementation.UserServiceImpl;
 import com.employeemanagement.employe_management.security.JWTService;
@@ -33,10 +32,9 @@ public class AuthController {
         this.userService = userService;
         this.jwtService = jwtService;
         this.loginRequest = loginRequest;
-
     }
 
-    @GetMapping("/")
+    @GetMapping("/hello-world")
     public String hello() {
         return "Hello World";
     }
